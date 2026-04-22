@@ -1,0 +1,138 @@
+:host {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+.board-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: 100%;
+  aspect-ratio: 1;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,255,255,0.08);
+}
+
+.square {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: filter 0.1s ease;
+}
+
+.square.selected::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--sq-selected);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.square.last-move-from::after,
+.square.last-move-to::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--sq-last-move);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.square.check::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--sq-check);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.square.error {
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-4px); }
+  30% { transform: translateX(4px); }
+  50% { transform: translateX(-4px); }
+  70% { transform: translateX(4px); }
+  90% { transform: translateX(-4px); }
+}
+
+.legal-dot {
+  position: absolute;
+  width: 28%;
+  height: 28%;
+  background: rgba(0,0,0,0.25);
+  border-radius: 50%;
+  z-index: 2;
+  pointer-events: none;
+  transition: transform 0.1s ease;
+}
+
+.legal-dot.capture-ring {
+  width: 88%;
+  height: 88%;
+  background: transparent;
+  border: 4px solid rgba(0,0,0,0.22);
+  border-radius: 50%;
+}
+
+.piece {
+  position: absolute;
+  inset: 1px;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  z-index: 3;
+  pointer-events: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
+  transition: opacity 0.1s ease;
+}
+
+/* Coordinate labels inside squares */
+.coord {
+  position: absolute;
+  font-size: clamp(7px, 1.5vw, 11px);
+  font-weight: 700;
+  opacity: 0.75;
+  line-height: 1;
+  z-index: 4;
+  pointer-events: none;
+  font-family: 'Outfit', sans-serif;
+}
+
+.coord-rank {
+  top: 2px;
+  left: 3px;
+}
+
+.coord-file {
+  bottom: 2px;
+  right: 3px;
+}
+
+/* Labels outside board (hidden - using coords inside) */
+.rank-labels,
+.file-labels {
+  display: none;
+}

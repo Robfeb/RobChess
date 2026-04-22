@@ -1,0 +1,140 @@
+<main class="app-layout">
+  <!-- Header -->
+  <header class="app-header">
+    <div class="logo">
+      <svg class="rook-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 20 h10 v10 h10 v-10 h20 v10 h10 v-10 h10 v20 h-5 v50 h10 v10 h-70 v-10 h10 v-50 h-5 z"
+          fill="var(--accent)" stroke="#fff" stroke-width="2" />
+        <text x="50%" y="65%" text-anchor="middle" fill="#fff" font-size="32" font-weight="bold"
+          font-family="sans-serif">R</text>
+      </svg>
+      <h1 class="app-title">{{ i18n.t('appName') }}</h1>
+    </div>
+
+    <!-- Right Header Actions -->
+    <div class="header-actions">
+      <button class="header-btn" [class.active]="isSettingsOpen()" (click)="toggleSettings()"
+        [title]="i18n.t('settings')">
+        ⚙️
+      </button>
+      <button class="header-btn" (click)="toggleHelp(helpModal)" [title]="i18n.t('help')">
+        ❓
+      </button>
+      <app-crown-tracker></app-crown-tracker>
+      <app-coin-display></app-coin-display>
+    </div>
+  </header>
+
+  <!-- Loading State -->
+  @if (isLoading()) {
+  <div class="loading-overlay">
+    <div class="spinner"></div>
+    <p>{{ i18n.t('loading') }}</p>
+  </div>
+  }
+
+  <!-- Main Interaction Area -->
+  <section class="main-content" [class.is-loading]="isLoading()">
+
+    <!-- Chess Board Area -->
+    <div class="board-section">
+      <section class="top-controls">
+        <app-level-selector [currentLevel]="currentLevel()" [currentTheme]="currentThemeFilter()"
+          (levelChange)="onLevelChange($event)" (themeChange)="onThemeChange($event)"></app-level-selector>
+
+        <app-controls (nextPuzzle)="onNextPuzzle()" (retryPuzzle)="onRetryPuzzle()" (sharePuzzle)="onShare()"
+          (copyLink)="onCopyLink()"></app-controls>
+
+        <!-- Settings Dropdown -->
+        @if (isSettingsOpen()) {
+        <div class="settings-dropdown">
+          <div class="setting-row">
+            <label>{{ i18n.t('boardTheme') }}</label>
+            <div class="chip-group">
+              @for (t of boardThemes; track t.id) {
+              <button class="chip" [class.active]="themeService.boardTheme().id === t.id"
+                (click)="themeService.setBoardTheme(t.id)">
+                <span class="color-swatch" [style.background]="t.dark"></span>
+                {{ t.name }}
+              </button>
+              }
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <label>{{ i18n.t('pieceSet') }}</label>
+            <div class="chip-group">
+              @for (p of pieceSets; track p.id) {
+              <button class="chip" [class.active]="themeService.pieceSet().id === p.id"
+                (click)="themeService.setPieceSet(p.id)">
+                {{ p.name }}
+              </button>
+              }
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <label>{{ i18n.t('language') }}</label>
+            <div class="chip-group">
+              <button class="chip" [class.active]="i18n.lang() === 'en'" (click)="i18n.setLanguage('en')">EN</button>
+              <button class="chip" [class.active]="i18n.lang() === 'es'" (click)="i18n.setLanguage('es')">ES</button>
+              <button class="chip" [class.active]="i18n.lang() === 'fr'" (click)="i18n.setLanguage('fr')">FR</button>
+              <button class="chip" [class.active]="i18n.lang() === 'ca'" (click)="i18n.setLanguage('ca')">CA</button>
+            </div>
+          </div>
+
+          <div class="setting-row horizontal">
+            <div class="toggle-item">
+              <label>{{ themeService.darkMode() ? i18n.t('darkMode') : i18n.t('lightMode') }}</label>
+              <button class="toggle-btn" (click)="themeService.toggleDarkMode()">
+                <div class="toggle-track" [class.on]="themeService.darkMode()">
+                  <div class="toggle-thumb"></div>
+                </div>
+              </button>
+            </div>
+
+            <div class="toggle-item">
+              <label>{{ storageService.soundEnabled() ? i18n.t('soundOn') : i18n.t('soundOff') }}</label>
+              <button class="toggle-btn" (click)="toggleSound()">
+                <div class="toggle-track" [class.on]="storageService.soundEnabled()">
+                  <div class="toggle-thumb"></div>
+                </div>
+              </button>
+            </div>
+
+            <div class="toggle-item">
+              <label>{{ i18n.t('randomNext') }}</label>
+              <button class="toggle-btn" (click)="toggleRandomNext()">
+                <div class="toggle-track" [class.on]="storageService.randomNext()">
+                  <div class="toggle-thumb"></div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+      </section>
+
+      <app-board></app-board>
+    </div>
+
+    <!-- Sidebar / Info Panel -->
+    <div class="info-section">
+      <app-puzzle-info [puzzle]="currentPuzzle()" [level]="currentLevel()" [batchIndex]="currentBatchIndex()"
+        [puzzleIndexInBatch]="puzzleIndexInBatch()" [totalInBatch]="totalInBatch()"
+        [isComplete]="gameService.puzzleComplete()" [previousPlay]="previousPlay()"
+        (themeSelect)="onThemeChange($event)"></app-puzzle-info>
+
+      <div class="spacer"></div>
+
+      <div class="spacer"></div>
+    </div>
+
+  </section>
+
+  <!-- Help Modal -->
+  <app-help #helpModal (tutorialRequest)="toggleTutorial(tutorialModal)"></app-help>
+
+  <!-- Tutorial Modal -->
+  <app-tutorial #tutorialModal></app-tutorial>
+</main>
