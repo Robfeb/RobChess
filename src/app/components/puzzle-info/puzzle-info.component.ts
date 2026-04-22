@@ -84,14 +84,6 @@ import { GameService } from '../../core/services/game.service';
         </div>
       </div>
 
-      <!-- Completion overlay -->
-      @if (isComplete) {
-        <div class="complete-banner">
-          <span class="crown">👑</span>
-          <span>{{ i18n.t('puzzleComplete') }}</span>
-        </div>
-      }
-
       <!-- Already solved badge -->
       @if (isSolved && !isComplete && !previousPlay) {
         <div class="solved-badge">

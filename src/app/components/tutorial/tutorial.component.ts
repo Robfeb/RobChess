@@ -74,7 +74,7 @@ export class TutorialComponent {
     { title: 'tutStep3Title', description: 'tutStep3Desc', icon: '📂' },
     { title: 'tutStep4Title', description: 'tutStep4Desc', icon: '💡' },
     { title: 'tutStep5Title', description: 'tutStep5Desc', icon: '🔥' },
-    { title: 'tutStep6Title', description: 'tutStep6Desc', icon: '💍' },
+    { title: 'tutStep6Title', description: 'tutStep6Desc', icon: '👑' },
   ];
 
   currentStep = () => this.steps[this.currentStepIndex()];

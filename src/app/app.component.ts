@@ -75,6 +75,8 @@ export class AppComponent implements OnInit {
     this.gameService.puzzleComplete$.subscribe(() => {
       const p = this.currentPuzzle();
       if (p) {
+        const level = this.currentLevel();
+
         // Calculate Coins
         const levelBaseRewards: Record<Level, number> = {
           beginner: 10,
@@ -83,20 +85,28 @@ export class AppComponent implements OnInit {
           master: 40,
           grandmaster: 50
         };
-        const base = levelBaseRewards[this.currentLevel()] || 10;
+        const base = levelBaseRewards[level] || 10;
         const deduction = this.gameService.errorCount() * 5;
-        const reward = Math.max(0, base - deduction);
-        
-        this.storageService.addCoins(reward);
+        const coinReward = Math.max(0, base - deduction);
+        this.storageService.addCoins(coinReward);
+
+        // Award 1 crown per puzzle (crowns replace rings)
+        let crownsEarned = 1;
+        this.storageService.addCrowns(level, 1);
 
         // Save detailed history
         this.storageService.savePlay(p.id, this.gameService.errorCount());
-        this.storageService.incrementSolvedCount();
+        this.storageService.incrementSolvedCount(level);
         
-        // Wait briefly to show completion, then update batch status
+        // Batch completion: award 50 extra crowns
         const isBatchComplete = this.checkBatchCompletion();
         if (isBatchComplete) {
-          this.storageService.markBatchComplete(this.currentLevel(), this.currentBatchIndex());
+          const didComplete = this.storageService.markBatchComplete(level, this.currentBatchIndex());
+          if (didComplete) {
+            crownsEarned += 50;
+            // lastCrownsEarned already set inside addCrowns; update to total
+            this.storageService.lastCrownsEarned.set(crownsEarned);
+          }
         }
         
         // Refresh local history view

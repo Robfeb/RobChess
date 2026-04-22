@@ -31,15 +31,17 @@ export class StorageService {
   private readonly COINS_KEY = 'rob-chess-coins';
 
   readonly totalCrowns = signal(0);
-  readonly totalRings = signal(0);
   readonly totalSolved = signal(0);
   readonly soundEnabled = signal(true);
   readonly randomNext = signal(false);
   readonly totalCoins = signal(0);
+  /** Crowns earned in the last puzzle (for overlay display) */
+  readonly lastCrownsEarned = signal(0);
+  /** Coins earned in the last puzzle (for overlay display) */
+  readonly lastCoinsEarned = signal(0);
 
   constructor() {
     this.totalCrowns.set(this.getAllCrowns());
-    this.totalRings.set(this.getRingCount());
     this.totalSolved.set(this.getSolvedCount());
     this.soundEnabled.set(this.getSoundEnabled());
     this.randomNext.set(this.getRandomNext());
@@ -122,10 +124,11 @@ export class StorageService {
     completed.add(batchIndex);
     this.saveCompletedBatches(level, completed);
 
-    // Award crown
+    // Award 50 crowns for completing a batch
+    const BATCH_CROWN_BONUS = 50;
     const raw = localStorage.getItem(this.CROWNS_KEY);
     const crowns: Record<string, number> = raw ? JSON.parse(raw) : {};
-    crowns[level] = (crowns[level] ?? 0) + 1;
+    crowns[level] = (crowns[level] ?? 0) + BATCH_CROWN_BONUS;
     localStorage.setItem(this.CROWNS_KEY, JSON.stringify(crowns));
     this.totalCrowns.set(this.getAllCrowns());
     return true;
@@ -215,25 +218,19 @@ export class StorageService {
     return parseInt(localStorage.getItem(this.SOLVED_COUNT_KEY) ?? '0', 10);
   }
 
-  incrementSolvedCount(): void {
+  incrementSolvedCount(level: Level): void {
     const nextSolved = this.getSolvedCount() + 1;
     localStorage.setItem(this.SOLVED_COUNT_KEY, String(nextSolved));
     this.totalSolved.set(nextSolved);
 
-    // Award ring every 10 puzzles
+    // Award 1 crown every 10 puzzles solved
     if (nextSolved > 0 && nextSolved % 10 === 0) {
-      this.addRing();
+      const raw = localStorage.getItem(this.CROWNS_KEY);
+      const crowns: Record<string, number> = raw ? JSON.parse(raw) : {};
+      crowns[level] = (crowns[level] ?? 0) + 1;
+      localStorage.setItem(this.CROWNS_KEY, JSON.stringify(crowns));
+      this.totalCrowns.set(this.getAllCrowns());
     }
-  }
-
-  getRingCount(): number {
-    return parseInt(localStorage.getItem(this.RINGS_KEY) ?? '0', 10);
-  }
-
-  private addRing(): void {
-    const nextRings = this.getRingCount() + 1;
-    localStorage.setItem(this.RINGS_KEY, String(nextRings));
-    this.totalRings.set(nextRings);
   }
 
   // --- Coins ---
@@ -245,5 +242,15 @@ export class StorageService {
     const next = this.getCoins() + amount;
     localStorage.setItem(this.COINS_KEY, String(next));
     this.totalCoins.set(next);
+    this.lastCoinsEarned.set(amount);
+  }
+
+  addCrowns(level: Level, amount: number): void {
+    const raw = localStorage.getItem(this.CROWNS_KEY);
+    const crowns: Record<string, number> = raw ? JSON.parse(raw) : {};
+    crowns[level] = (crowns[level] ?? 0) + amount;
+    localStorage.setItem(this.CROWNS_KEY, JSON.stringify(crowns));
+    this.totalCrowns.set(this.getAllCrowns());
+    this.lastCrownsEarned.set(amount);
   }
 }

@@ -4,8 +4,8 @@
   min-height: 100vh;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 16px;
-  gap: 24px;
+  padding: 12px;
+  gap: 12px;
 }
 
 .app-header {
@@ -13,13 +13,15 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 8px;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .header-btn {
@@ -76,18 +78,18 @@
 .top-controls {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   width: 100%;
   position: relative;
   z-index: 50;
   transition: all 0.3s ease;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .main-content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 12px;
   transition: opacity 0.3s ease;
 }
 
@@ -152,11 +154,13 @@
 @media (min-width: 768px) {
   .app-layout {
     padding: 32px;
+    gap: 24px;
   }
   
   .main-content {
     flex-direction: row;
     align-items: flex-start;
+    gap: 24px;
   }
 
   .board-section {
@@ -166,7 +170,8 @@
   }
 
   .top-controls {
-    /* No longer needs desktop margin override as it's inside board-section */
+    gap: 12px;
+    margin-bottom: 8px;
   }
 
   .info-section {
@@ -174,6 +179,42 @@
     min-width: 300px;
     position: sticky;
     top: 32px;
+  }
+}
+
+/* Small mobile tweaks (iPhone 12 / 390px wide) */
+@media (max-width: 430px) {
+  .app-layout {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .app-header {
+    gap: 6px;
+  }
+
+  .rook-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .app-title {
+    font-size: 20px;
+  }
+
+  .header-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+  }
+
+  .top-controls {
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .main-content {
+    gap: 8px;
   }
 }
 

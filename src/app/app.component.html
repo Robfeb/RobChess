@@ -42,8 +42,7 @@
         <app-level-selector [currentLevel]="currentLevel()" [currentTheme]="currentThemeFilter()"
           (levelChange)="onLevelChange($event)" (themeChange)="onThemeChange($event)"></app-level-selector>
 
-        <app-controls (nextPuzzle)="onNextPuzzle()" (retryPuzzle)="onRetryPuzzle()" (sharePuzzle)="onShare()"
-          (copyLink)="onCopyLink()"></app-controls>
+        <app-controls (nextPuzzle)="onNextPuzzle()" (retryPuzzle)="onRetryPuzzle()" (sharePuzzle)="onShare()"></app-controls>
 
         <!-- Settings Dropdown -->
         @if (isSettingsOpen()) {
@@ -110,12 +109,21 @@
                 </div>
               </button>
             </div>
+
+            <div class="toggle-item">
+              <label>{{ gameService.showLegalMoves() ? i18n.t('legalMoves') : i18n.t('legalMoves') }} 🎯</label>
+              <button class="toggle-btn" (click)="gameService.toggleLegalMoves()">
+                <div class="toggle-track" [class.on]="gameService.showLegalMoves()">
+                  <div class="toggle-thumb"></div>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
         }
       </section>
 
-      <app-board></app-board>
+      <app-board (nextPuzzle)="onNextPuzzle()" (retryPuzzle)="onRetryPuzzle()"></app-board>
     </div>
 
     <!-- Sidebar / Info Panel -->

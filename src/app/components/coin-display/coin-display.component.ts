@@ -87,16 +87,30 @@ import { I18nService } from '../../core/services/i18n.service';
     }
 
     /* Small screens optimization */
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       .coin-display {
-        padding: 6px 14px;
-        gap: 8px;
-        font-size: 1.1rem;
+        padding: 5px 10px;
+        gap: 6px;
+        font-size: 0.95rem;
+        border-radius: 16px;
       }
       .coin-icon {
-        font-size: 1.4rem;
+        font-size: 1.1rem;
       }
     }
+
+    @media (max-width: 430px) {
+      .coin-display {
+        padding: 4px 8px;
+        gap: 4px;
+        font-size: 0.85rem;
+        border-width: 1px;
+      }
+      .coin-icon {
+        font-size: 1rem;
+      }
+    }
+
   `]
 })
 export class CoinDisplayComponent {

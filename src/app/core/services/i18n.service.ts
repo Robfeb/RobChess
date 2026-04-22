@@ -80,13 +80,13 @@ const EN: Translations = {
   tutStep2Title: 'Find the Best Move',
   tutStep2Desc: 'In each puzzle, you must find the winning sequence. Follow the prompt to solve the tactic!',
   tutStep3Title: 'Levels & Themes',
-  tutStep3Desc: 'Choose your level from Beginner to Grandmaster, or filter by specific tactical motifs. By default, puzzles are sequential, but you can enable Random Mode in settings.',
+  tutStep3Desc: 'Choose your level from Beginner to Grandmaster. Use the 🔍 Filter tab to narrow down puzzles by tactical theme. By default puzzles are sequential; enable Random Mode in Settings for variety.',
   tutStep4Title: 'Movement & Hints',
-  tutStep4Desc: 'Click or drag pieces. Green dots show legal moves. Use the lightbulb if you need a hint!',
+  tutStep4Desc: 'Click or drag pieces to move. Toggle legal move dots 🎯 in the ⚙️ Settings menu. Use the 💡 lightbulb for a move hint.',
   tutStep5Title: 'Streak & Errors',
-  tutStep5Desc: 'Build your Fire streak with consecutive correct moves. Be careful: one mistake resets it!',
-  tutStep6Title: 'Earn Rewards',
-  tutStep6Desc: 'Every solved puzzle grants you Gold Coins 🪙 based on difficulty. Mistakes reduce your reward. Earn 💍 Rings every 10 puzzles and 👑 Crowns for batches!',
+  tutStep5Desc: 'Build your 🔥 streak with consecutive correct moves. One mistake resets it!',
+  tutStep6Title: 'Earn Crowns & Coins',
+  tutStep6Desc: 'Every solved puzzle earns you 👑 Crowns and 🪙 Coins. Coin amount depends on difficulty; mistakes reduce the reward. Complete a full batch to earn a bonus of +50 Crowns!',
 };
 
 const ES: Translations = {
@@ -151,13 +151,13 @@ const ES: Translations = {
   tutStep2Title: 'Encuentra la Mejor Jugada',
   tutStep2Desc: 'En cada acertijo, debes encontrar la secuencia ganadora. ¡Sigue las indicaciones para resolverlo!',
   tutStep3Title: 'Niveles y Temas',
-  tutStep3Desc: 'Elige tu nivel desde Principiante hasta Gran Maestro, o filtra por temas tácticos específicos. Por defecto, los puzzles son secuenciales, pero puedes activar el Modo Aleatorio en los ajustes.',
+  tutStep3Desc: 'Elige tu nivel de Principiante a Gran Maestro. Usa la pestaña 🔍 Filtro para explorar puzzles por tema táctico. Por defecto son secuenciales; activa el Modo Aleatorio en Ajustes para variar.',
   tutStep4Title: 'Movimiento y Pistas',
-  tutStep4Desc: 'Haz clic o arrastra las piezas. Los puntos verdes muestran jugadas legales. ¡Usa la bombilla si necesitas ayuda!',
+  tutStep4Desc: 'Haz clic o arrastra las piezas. Activa los puntos de jugadas legales 🎯 en el menú ⚙️ Ajustes. Usa la 💡 bombilla para una pista.',
   tutStep5Title: 'Racha y Errores',
-  tutStep5Desc: 'Aumenta tu racha de fuego con jugadas correctas consecutivas. Ten cuidado: ¡un error la reinicia!',
-  tutStep6Title: 'Gana Recompensas',
-  tutStep6Desc: 'Cada puzzle resuelto te otorga Monedas de Oro 🪙 según la dificultad. Los errores reducen la recompensa. ¡Gana 💍 Anillos y 👑 Coronas por completar lotes!',
+  tutStep5Desc: '¡Construye tu racha 🔥 con movimientos correctos consecutivos. Un error la reinicia!',
+  tutStep6Title: 'Gana Coronas y Monedas',
+  tutStep6Desc: 'Cada puzzle resuelto te da 👑 Coronas y 🪙 Monedas. Las monedas dependen de la dificultad; los errores reducen la recompensa. ¡Completa un lote y gana +50 Coronas de bonus!',
 };
 
 const FR: Translations = {
@@ -222,13 +222,13 @@ const FR: Translations = {
   tutStep2Title: 'Trouvez le meilleur coup',
   tutStep2Desc: 'Dans chaque puzzle, vous devez trouver la séquence gagnante. Suivez l\'invite pour résoudre la tactique !',
   tutStep3Title: 'Niveaux et thèmes',
-  tutStep3Desc: 'Choisissez votre niveau de débutant à grand maître, ou filtrez par motifs tactiques spécifiques. Par défaut, les puzzles sont séquentiels, mais vous pouvez activer le mode aléatoire dans les paramètres.',
+  tutStep3Desc: 'Choisissez votre niveau de Débutant à Grand Maître. Utilisez l\'onglet 🔍 Filtre pour explorer les puzzles par thème tactique. Par défaut ils sont séquentiels ; activez le Mode Aléatoire dans les Paramètres.',
   tutStep4Title: 'Mouvements et indices',
-  tutStep4Desc: 'Cliquez ou faites glisser les pièces. Les points verts indiquent les coups légaux. Utilisez l\'ampoule si vous avez besoin d\'un indice !',
+  tutStep4Desc: 'Cliquez ou faites glisser les pièces. Activez les points de coups légaux 🎯 dans le menu ⚙️ Paramètres. Utilisez l\'ampoule 💡 pour un indice.',
   tutStep5Title: 'Série et erreurs',
-  tutStep5Desc: 'Construisez votre série de victoires avec des mouvements corrects consécutifs. Attention : une erreur réinitialise la série !',
-  tutStep6Title: 'Gagnez des récompenses',
-  tutStep6Desc: 'Chaque puzzle résolu vous rapporte des pièces d\'or 🪙 selon la difficulté. Les erreurs réduisent votre récompense. Gagnez des 💍 anneaux et des 👑 couronnes !',
+  tutStep5Desc: 'Construisez votre série 🔥 avec des coups corrects consécutifs. Une erreur la réinitialise !',
+  tutStep6Title: 'Gagnez des Couronnes et des Pièces',
+  tutStep6Desc: 'Chaque puzzle résolu rapporte 👑 Couronnes et 🪙 Pièces d\'or. Le montant dépend de la difficulté ; les erreurs réduisent la récompense. Complétez un lot pour gagner +50 Couronnes bonus !',
 };
 
 const CA: Translations = {
@@ -293,13 +293,13 @@ const CA: Translations = {
   tutStep2Title: 'Troba el millor moviment',
   tutStep2Desc: 'En cada tàctica, has de trobar la seqüència guanyadora. Segueix l\'indicació per resoldre-la!',
   tutStep3Title: 'Nivells i Temes',
-  tutStep3Desc: 'Tria el teu nivell de Principiant a Gran Mestre, o filtra per motius tàctics específics.',
+  tutStep3Desc: 'Tria el teu nivell de Principiant a Gran Mestre. Fes servir la pestanya 🔍 Filtre per explorar puzzles per tema tàctic. Per defecte són seqüencials; activa el Mode Aleatori a la Configuració.',
   tutStep4Title: 'Moviment i Pistes',
-  tutStep4Desc: 'Fes clic o arrossega les peces. Els punts verds mostren moviments legals. Utilitza la bombeta si necessites ajuda!',
+  tutStep4Desc: 'Fes clic o arrossega les peces. Activa els punts de moviments legals 🎯 al menú ⚙️ Configuració. Utilitza la bombeta 💡 si necessites una pista.',
   tutStep5Title: 'Ratxa i Errors',
-  tutStep5Desc: 'Augmenta la teva ratxa de foc amb moviments correctes consecutius. Compte: un error la reinicia!',
-  tutStep6Title: 'Guanya Recompenses',
-  tutStep6Desc: 'Cada tàctica resolta t\'atorga monedes d\'or 🪙 segons la dificultat. Els errors redueixen la recompensa. Guanya 💍 anells i 👑 corones per completar lots!',
+  tutStep5Desc: 'Augmenta la teva ratxa 🔥 amb moviments correctes consecutius. Un error la reinicia!',
+  tutStep6Title: 'Guanya Corones i Monedes',
+  tutStep6Desc: 'Cada tàctica resolta et dóna 👑 Corones i 🪙 Monedes. La quantitat depèn de la dificultat; els errors redueixen la recompensa. Completa un lot i guanya +50 Corones de bonus!',
 };
 
 @Injectable({ providedIn: 'root' })
