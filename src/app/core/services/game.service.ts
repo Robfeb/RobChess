@@ -146,35 +146,9 @@ export class GameService {
     const expectedTo = expectedUci.substring(2, 4);
     const expectedPromotion = expectedUci.length === 5 ? expectedUci[4] : undefined;
 
-    const moveUci = `${from}${to}`;
     const isCorrect = from === expectedFrom && to === expectedTo;
 
-    if (isCorrect) {
-      // Execute the correct move
-      const promotion = expectedPromotion || this.detectPromotion(from, to);
-      this.chess.move({ from, to, promotion });
-      this.lastMoveFrom = from;
-      this.lastMoveTo = to;
-      this.selectedSquare = null;
-      this.solutionIndex++;
-
-      if (this.solutionIndex >= solution.length) {
-        // Puzzle complete!
-        this._puzzleComplete.set(true);
-        this.emitBoardState();
-        this.sound.playWin();
-        this.moveResult$.next('puzzle-complete');
-        this.puzzleComplete$.next();
-      } else {
-        // Execute opponent's response
-        // Increment streak only for correct intermediate moves, not on the final puzzle complete to prevent over-counting if you want per-move tracking. 
-        // We'll increment on every correct move.
-        this.emitBoardState();
-        this.moveResult$.next('correct');
-        setTimeout(() => this.executeOpponentMove(), 600);
-      }
-      this._streakCounter.update(v => v + 1);
-    } else {
+    if (!isCorrect) {
       // Wrong move — show error and undo
       this._errorSquare.set(to);
       this._streakCounter.set(0);
@@ -187,7 +161,35 @@ export class GameService {
         this._errorSquare.set(null);
         this.emitBoardState();
       }, 600);
+      return;
     }
+
+    // Execute the correct move
+    const promotion = expectedPromotion || this.detectPromotion(from, to);
+    this.chess.move({ from, to, promotion });
+    this.lastMoveFrom = from;
+    this.lastMoveTo = to;
+    this.selectedSquare = null;
+    this.solutionIndex++;
+
+    if (this.solutionIndex >= solution.length) {
+      // Puzzle complete!
+      this._puzzleComplete.set(true);
+      this.emitBoardState();
+      this.sound.playWin();
+      this.moveResult$.next('puzzle-complete');
+      this.puzzleComplete$.next();
+      this._streakCounter.update(v => v + 1);
+      return;
+    }
+
+    // Execute opponent's response
+    // Increment streak only for correct intermediate moves, not on the final puzzle complete to prevent over-counting if you want per-move tracking.
+    // We'll increment on every correct move.
+    this.emitBoardState();
+    this.moveResult$.next('correct');
+    setTimeout(() => this.executeOpponentMove(), 600);
+    this._streakCounter.update(v => v + 1);
   }
 
   private detectPromotion(from: string, to: string): string | undefined {
