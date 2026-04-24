@@ -29,7 +29,7 @@ export class GameService {
   private sound = inject(SoundService);
   private chess = new Chess();
   private puzzle: Puzzle | null = null;
-  private solutionIndex = 0;
+  private remainingMoves: string[] = [];
   private selectedSquare: string | null = null;
   private lastMoveFrom: string | null = null;
   private lastMoveTo: string | null = null;
@@ -65,7 +65,7 @@ export class GameService {
 
   loadPuzzle(puzzle: Puzzle): void {
     this.puzzle = puzzle;
-    this.solutionIndex = 0;
+    this.remainingMoves = [...puzzle.solution];
     this.selectedSquare = null;
     this.lastMoveFrom = null;
     this.lastMoveTo = null;
@@ -138,10 +138,9 @@ export class GameService {
   }
 
   private attemptMove(from: string, to: string): void {
-    const solution = this.puzzle?.solution;
-    if (!solution) return;
+    const expectedUci = this.remainingMoves[0];
+    if (!expectedUci) return;
 
-    const expectedUci = solution[this.solutionIndex];
     const expectedFrom = expectedUci.substring(0, 2);
     const expectedTo = expectedUci.substring(2, 4);
     const expectedPromotion = expectedUci.length === 5 ? expectedUci[4] : undefined;
@@ -156,9 +155,9 @@ export class GameService {
       this.lastMoveFrom = from;
       this.lastMoveTo = to;
       this.selectedSquare = null;
-      this.solutionIndex++;
+      this.remainingMoves.shift();
 
-      if (this.solutionIndex >= solution.length) {
+      if (this.remainingMoves.length === 0) {
         // Puzzle complete!
         this._puzzleComplete.set(true);
         this.emitBoardState();
@@ -201,10 +200,9 @@ export class GameService {
   }
 
   private executeOpponentMove(): void {
-    const solution = this.puzzle?.solution;
-    if (!solution || this.solutionIndex >= solution.length) return;
+    const uci = this.remainingMoves[0];
+    if (!uci) return;
 
-    const uci = solution[this.solutionIndex];
     const from = uci.substring(0, 2);
     const to = uci.substring(2, 4);
     const promotion = uci.length === 5 ? uci[4] : undefined;
@@ -213,19 +211,19 @@ export class GameService {
       this.chess.move({ from, to, promotion });
       this.lastMoveFrom = from;
       this.lastMoveTo = to;
-      this.solutionIndex++;
     } catch {
       // bad move data — skip
+    } finally {
+      this.remainingMoves.shift();
     }
 
     this.emitBoardState();
   }
 
   getHintMove(): HintMove {
-    const solution = this.puzzle?.solution;
-    if (!solution || this.solutionIndex >= solution.length) return null;
+    const uci = this.remainingMoves[0];
+    if (!uci) return null;
 
-    const uci = solution[this.solutionIndex];
     return {
       from: uci.substring(0, 2),
       to: uci.substring(2, 4),
