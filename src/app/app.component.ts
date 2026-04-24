@@ -190,8 +190,10 @@ export class AppComponent implements OnInit {
     this.previousPlay.set(this.storageService.getPlay(puzzle.id));
 
     // Update batch progress
-    const idx = await this.puzzleService.getPuzzleIndexInBatch(this.currentLevel(), this.currentBatchIndex(), puzzle.id);
-    const total = await this.puzzleService.getBatchPuzzleCount(this.currentLevel(), this.currentBatchIndex());
+    const [idx, total] = await Promise.all([
+      this.puzzleService.getPuzzleIndexInBatch(this.currentLevel(), this.currentBatchIndex(), puzzle.id),
+      this.puzzleService.getBatchPuzzleCount(this.currentLevel(), this.currentBatchIndex())
+    ]);
     this.puzzleIndexInBatch.set(idx);
     this.totalInBatch.set(total);
     this.cdr.markForCheck();
